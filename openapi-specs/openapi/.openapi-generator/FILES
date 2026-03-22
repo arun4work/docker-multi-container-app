@@ -1,0 +1,13 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+docs/ApiValuesAllGet200ResponseInner.md
+docs/ApiValuesPost200Response.md
+docs/ApiValuesPostRequest.md
+docs/DefaultApi.md
+git_push.sh
+index.ts
