@@ -23,95 +23,35 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-export interface ApiValuesAllGet200ResponseInner {
-    'number'?: number;
-}
-export interface ApiValuesPost200Response {
+export interface CalculateIndexValue200Response {
     'message'?: string;
 }
-export interface ApiValuesPostRequest {
+export interface CalculateIndexValueRequest {
     /**
      * The index to calculate
      */
     'index'?: string;
 }
+export interface GetAllIndices200ResponseInner {
+    'number'?: number;
+}
 
 /**
- * DefaultApi - axios parameter creator
+ * FibApi - axios parameter creator
  */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+export const FibApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get all values from Postgres
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiValuesAllGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/values/all`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Accept'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get current values from Redis
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiValuesCurrentGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/values/current`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Accept'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Submit a new index
-         * @param {ApiValuesPostRequest} apiValuesPostRequest 
+         * @param {CalculateIndexValueRequest} calculateIndexValueRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiValuesPost: async (apiValuesPostRequest: ApiValuesPostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'apiValuesPostRequest' is not null or undefined
-            assertParamExists('apiValuesPost', 'apiValuesPostRequest', apiValuesPostRequest)
-            const localVarPath = `/api/values`;
+        calculateIndexValue: async (calculateIndexValueRequest: CalculateIndexValueRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'calculateIndexValueRequest' is not null or undefined
+            assertParamExists('calculateIndexValue', 'calculateIndexValueRequest', calculateIndexValueRequest)
+            const localVarPath = `/api/indices`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -129,7 +69,67 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(apiValuesPostRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(calculateIndexValueRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get all indices from Postgres
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllIndices: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/indices/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get current indices and values from Redis
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAvailableIndexValues: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/indices/values`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -142,7 +142,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rootGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getHealthCheck: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -170,46 +170,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 };
 
 /**
- * DefaultApi - functional programming interface
+ * FibApi - functional programming interface
  */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+export const FibApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FibApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @summary Get all values from Postgres
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiValuesAllGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApiValuesAllGet200ResponseInner>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiValuesAllGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.apiValuesAllGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get current values from Redis
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiValuesCurrentGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: string; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiValuesCurrentGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.apiValuesCurrentGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Submit a new index
-         * @param {ApiValuesPostRequest} apiValuesPostRequest 
+         * @param {CalculateIndexValueRequest} calculateIndexValueRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiValuesPost(apiValuesPostRequest: ApiValuesPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiValuesPost200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiValuesPost(apiValuesPostRequest, options);
+        async calculateIndexValue(calculateIndexValueRequest: CalculateIndexValueRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CalculateIndexValue200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.calculateIndexValue(calculateIndexValueRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.apiValuesPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FibApi.calculateIndexValue']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get all indices from Postgres
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllIndices(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetAllIndices200ResponseInner>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllIndices(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FibApi.getAllIndices']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get current indices and values from Redis
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAvailableIndexValues(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: string; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAvailableIndexValues(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FibApi.getAvailableIndexValues']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -218,48 +218,48 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rootGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rootGet(options);
+        async getHealthCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getHealthCheck(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.rootGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FibApi.getHealthCheck']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * DefaultApi - factory interface
+ * FibApi - factory interface
  */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
+export const FibApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FibApiFp(configuration)
     return {
         /**
          * 
-         * @summary Get all values from Postgres
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiValuesAllGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ApiValuesAllGet200ResponseInner>> {
-            return localVarFp.apiValuesAllGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get current values from Redis
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiValuesCurrentGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: string; }> {
-            return localVarFp.apiValuesCurrentGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Submit a new index
-         * @param {ApiValuesPostRequest} apiValuesPostRequest 
+         * @param {CalculateIndexValueRequest} calculateIndexValueRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiValuesPost(apiValuesPostRequest: ApiValuesPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiValuesPost200Response> {
-            return localVarFp.apiValuesPost(apiValuesPostRequest, options).then((request) => request(axios, basePath));
+        calculateIndexValue(calculateIndexValueRequest: CalculateIndexValueRequest, options?: RawAxiosRequestConfig): AxiosPromise<CalculateIndexValue200Response> {
+            return localVarFp.calculateIndexValue(calculateIndexValueRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get all indices from Postgres
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllIndices(options?: RawAxiosRequestConfig): AxiosPromise<Array<GetAllIndices200ResponseInner>> {
+            return localVarFp.getAllIndices(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get current indices and values from Redis
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAvailableIndexValues(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: string; }> {
+            return localVarFp.getAvailableIndexValues(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -267,45 +267,45 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rootGet(options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.rootGet(options).then((request) => request(axios, basePath));
+        getHealthCheck(options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.getHealthCheck(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * DefaultApi - object-oriented interface
+ * FibApi - object-oriented interface
  */
-export class DefaultApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get all values from Postgres
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    public apiValuesAllGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).apiValuesAllGet(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get current values from Redis
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    public apiValuesCurrentGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).apiValuesCurrentGet(options).then((request) => request(this.axios, this.basePath));
-    }
-
+export class FibApi extends BaseAPI {
     /**
      * 
      * @summary Submit a new index
-     * @param {ApiValuesPostRequest} apiValuesPostRequest 
+     * @param {CalculateIndexValueRequest} calculateIndexValueRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public apiValuesPost(apiValuesPostRequest: ApiValuesPostRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).apiValuesPost(apiValuesPostRequest, options).then((request) => request(this.axios, this.basePath));
+    public calculateIndexValue(calculateIndexValueRequest: CalculateIndexValueRequest, options?: RawAxiosRequestConfig) {
+        return FibApiFp(this.configuration).calculateIndexValue(calculateIndexValueRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get all indices from Postgres
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getAllIndices(options?: RawAxiosRequestConfig) {
+        return FibApiFp(this.configuration).getAllIndices(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get current indices and values from Redis
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getAvailableIndexValues(options?: RawAxiosRequestConfig) {
+        return FibApiFp(this.configuration).getAvailableIndexValues(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -314,8 +314,8 @@ export class DefaultApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public rootGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).rootGet(options).then((request) => request(this.axios, this.basePath));
+    public getHealthCheck(options?: RawAxiosRequestConfig) {
+        return FibApiFp(this.configuration).getHealthCheck(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
