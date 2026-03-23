@@ -52,7 +52,7 @@ const StyledNavLink = styled(NavLink)`
 const Header = () => {
   return (
     <Nav>
-      <LogoLink to="/">Docker Multi Container UI</LogoLink>
+      <LogoLink to="/">Docker Multi Container App</LogoLink>
 
       <NavLinks>
         <StyledNavLink to="/">Home</StyledNavLink>
