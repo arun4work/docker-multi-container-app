@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { valueQueries } from '../api/queries';
+import { useCalculateValue, valueQueries } from '../api/queries';
 import styled from '@emotion/styled';
 
 const Button = styled.button`
@@ -54,10 +54,12 @@ export default function Fib() {
     valueQueries.availableIndexvalues(),
   );
 
+  const { mutate } = useCalculateValue();
+
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const enteredIndex = (event.target as HTMLInputElement).value;
-    valueQueries.calculateValue().mutate(enteredIndex);
+    mutate(enteredIndex);
   };
 
   const renderIndexes = () => {

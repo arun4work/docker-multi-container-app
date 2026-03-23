@@ -1,4 +1,8 @@
-import { queryOptions, useMutation, QueryClient } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { api } from './config';
 
 export const valueQueries = {
@@ -17,13 +21,19 @@ export const valueQueries = {
       queryKey: ['indices', 'all'],
       queryFn: () => api.getAvailableIndexValues().then((res) => res.data),
     }),
-  calculateValue: () => {
-    const queryClient = new QueryClient();
-    return useMutation({
-      mutationFn: (enteredIndex: string) =>
-        api.calculateIndexValue({ index: enteredIndex }),
-      onSuccess: () =>
-        queryClient.invalidateQueries({ queryKey: ['current', 'all'] }),
-    });
-  },
+};
+
+export const useCalculateValue = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (enteredIndex: string) => {
+      const { data } = await api.calculateIndexValue({ index: enteredIndex });
+      return data;
+    },
+    onSuccess: () => {
+      // Refresh the list after a successful post
+      queryClient.invalidateQueries({ queryKey: ['indices'] });
+    },
+  });
 };
