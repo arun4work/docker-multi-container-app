@@ -13,12 +13,12 @@ export const valueQueries = {
     }),
   allIndices: () =>
     queryOptions({
-      queryKey: ['indices', 'current'],
+      queryKey: ['indices', 'all'],
       queryFn: () => api.getAllIndices().then((res) => res.data),
     }),
   availableIndexvalues: () =>
     queryOptions({
-      queryKey: ['indices', 'all'],
+      queryKey: ['indices', 'allIndexValues'],
       queryFn: () => api.getAvailableIndexValues().then((res) => res.data),
     }),
 };
@@ -28,6 +28,7 @@ export const useCalculateValue = () => {
 
   return useMutation({
     mutationFn: async (enteredIndex: string) => {
+      console.log('enteredIndex: ', enteredIndex);
       const { data } = await api.calculateIndexValue({ index: enteredIndex });
       return data;
     },

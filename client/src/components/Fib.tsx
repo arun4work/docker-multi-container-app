@@ -58,8 +58,15 @@ export default function Fib() {
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const enteredIndex = (event.target as HTMLInputElement).value;
-    mutate(enteredIndex);
+    mutate(index, {
+      onSuccess: () => {
+        setIndex('');
+      },
+      onError: () => {
+        setIndex('');
+        console.error('Error in submiting the index');
+      },
+    });
   };
 
   const renderIndexes = () => {
