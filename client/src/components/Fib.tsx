@@ -81,7 +81,7 @@ export default function Fib() {
     return indexValues?.map((item) => {
       return (
         <div>
-          For inex {item.index}, I calculated {item.value}
+          For index {item.index}, I calculated {item.value}
         </div>
       );
     });

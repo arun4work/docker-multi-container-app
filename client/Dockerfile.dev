@@ -1,0 +1,14 @@
+# Pull Base Image
+FROM node:current-alpine3.23
+
+# Set working directory
+WORKDIR '/app'
+
+# Copy file
+COPY . .
+
+# Install npm packages
+RUN npm ci
+
+# Container start command
+CMD [ "npm", "run", "start" ]

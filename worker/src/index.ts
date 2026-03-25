@@ -3,8 +3,8 @@ import redis from 'redis';
 
 const redisClient = redis.createClient({
   socket: {
-    host: keys.redisHost || 'localhost',
-    port: Number(keys.redisPort) || 6379,
+    host: keys.redisHost,
+    port: Number(keys.redisPort),
     reconnectStrategy: (retries) => {
       if (retries > 10) {
         return new Error('Retry attempts exhausted');
