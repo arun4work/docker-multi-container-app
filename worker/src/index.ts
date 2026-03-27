@@ -16,6 +16,7 @@ const redisClient = redis.createClient({
 
 const sub = redisClient.duplicate();
 // with type: module in package.json, we can use await outside of async function
+await redisClient.connect();
 await sub.connect(); // Remember: v4 requires manual connection
 
 function fib(index: number): number {
@@ -28,8 +29,8 @@ function fib(index: number): number {
 // });
 
 // Provide the callback as the second argument
-await sub.subscribe('insert', (message, channel) => {
+await sub.subscribe('insert', async (message, channel) => {
   console.log(`Received message: ${message} from ${channel}`);
   const index = parseInt(message);
-  redisClient.hSet('values', message, fib(index));
+  await redisClient.hSet('values', message, fib(index));
 });
