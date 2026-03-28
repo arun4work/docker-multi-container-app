@@ -7,11 +7,10 @@ services:
     image: "redis:latest"
   api:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
+    expose:
+      - "5001"
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
@@ -20,29 +19,29 @@ services:
       - PG_DATABASE=${PG_DATABASE}
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_PORT=${PG_PORT}
-    ports:
-      - "5001:5001"
     depends_on:
       - postgres
       - redis
+    # We should not add this while deploying to cloud service, but required only for spinning the app in production mode in local machine
+    # ports:
+    #   - "5001:5001"
   worker:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
   ui:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
+      args:
+        # For prod mode, we build the react app. So need this as build argument instead of runtime env variable
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     ports:
       - "3000:3000"
     environment:
       - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+    expose:
+      - "3000"
