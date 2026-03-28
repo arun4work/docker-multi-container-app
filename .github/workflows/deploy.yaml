@@ -34,6 +34,7 @@ jobs:
 
       # NEW STEP: The Production Build Check
       - name: Build Client
+        working-directory: ./client
         run: npm run build
         env:
           NODE_ENV: production
