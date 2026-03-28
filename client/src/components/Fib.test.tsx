@@ -46,7 +46,7 @@ describe('Fib Component (Vitest + MSW)', () => {
     const indexList = await screen.findByText(/1, 2, 3/i);
     expect(indexList).toBeInTheDocument();
     expect(
-      await screen.findByText(/For inex 1, I calculated 1/i),
+      await screen.findByText(/For index 1, I calculated 1/i),
     ).toBeInTheDocument();
   });
 
