@@ -91,15 +91,4 @@ jobs:
         run: |
           # Merge both files to get the full production context
           docker compose -f docker-compose-prod.yaml build
-
-          # Tag and Push logic (using your Hub ID)
-          USER=${{ secrets.DOCKERHUB_USERNAME }}
-          docker tag client $USER/docker-multi-conatiner-ui:latest
-          docker tag server $USER/docker-multi-conatiner-server:latest
-          docker tag worker $USER/docker-multi-conatiner-worker:latest
-          docker tag proxy $USER/docker-multi-conatiner-proxy:latest
-
-          docker push $USER/docker-multi-conatiner-ui:latest
-          docker push $USER/docker-multi-conatiner-server:latest
-          docker push $USER/docker-multi-conatiner-worker:latest
-          docker push $USER/docker-multi-conatiner-proxy:latest
+          docker compose -f docker-compose-prod.yaml push
