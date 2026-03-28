@@ -48,6 +48,15 @@ jobs:
         env:
           NODE_ENV: production
 
+      # NEW STEP: The Production Build Check for worker
+      - name: Build Worker
+        working-directory: ./worker
+        run: |
+          npm ci --include=dev
+          npm run build
+        env:
+          NODE_ENV: production
+
   # --- STAGE 2: Build and Push (Only runs if Stage 1 passes) ---
   build-and-push:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
