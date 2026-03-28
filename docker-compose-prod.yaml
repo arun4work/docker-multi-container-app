@@ -24,9 +24,6 @@ services:
     depends_on:
       - postgres
       - redis
-    # We should not add this while deploying to cloud service, but required only for spinning the app in production mode in local machine
-    # ports:
-    #   - "5001:5001"
   worker:
     # Use your Docker Hub username here (or an env var)
     image: ${DOCKERHUB_USERNAME:-my-local-test}/docker-multi-conatiner-app-worker:latest
