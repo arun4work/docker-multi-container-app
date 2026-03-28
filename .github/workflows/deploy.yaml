@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: 24
           cache: "npm"
+          cache-dependency-path: client/package-lock.json
 
       # Test the Client (UI)
       - name: Install & Test Client
