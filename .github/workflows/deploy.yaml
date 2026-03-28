@@ -29,8 +29,8 @@ jobs:
         working-directory: ./client
         run: |
           npm ci
-          run: npx tsc --noEmit
-          run: npm run test:run -- --reporter=github-actions
+          npx tsc --noEmit
+          npm run test:run -- --reporter=github-actions
 
       # NEW STEP: The Production Build Check
       - name: Build Client
