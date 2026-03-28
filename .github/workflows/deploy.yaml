@@ -43,10 +43,10 @@ jobs:
       - name: Build Server
         working-directory: ./server
         run: |
-          npm ci
+          npm ci --include=dev
           npm run build
-        # env:
-        #   NODE_ENV: production
+        env:
+          NODE_ENV: production
 
   # --- STAGE 2: Build and Push (Only runs if Stage 1 passes) ---
   build-and-push:
