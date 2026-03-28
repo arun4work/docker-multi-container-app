@@ -40,7 +40,7 @@ jobs:
           NODE_ENV: production
 
       # NEW STEP: The Production Build Check for server
-      - name: Build Client
+      - name: Build Server
         working-directory: ./server
         run: |
           npm ci
