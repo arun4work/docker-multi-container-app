@@ -88,6 +88,9 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and Push Production Images
+        env:
+          # This line is the "Bridge" between GitHub Secrets and the Docker Build
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           # Merge both files to get the full production context
           docker compose -f docker-compose-prod.yaml build
