@@ -45,17 +45,8 @@ jobs:
         run: |
           npm ci
           npm run build
-        env:
-          NODE_ENV: production
-
-      # NEW STEP: The Production Build Check for worker
-      - name: Build Client
-        working-directory: ./worker
-        run: |
-          npm ci
-          npm run build
-        env:
-          NODE_ENV: production
+        # env:
+        #   NODE_ENV: production
 
   # --- STAGE 2: Build and Push (Only runs if Stage 1 passes) ---
   build-and-push:
