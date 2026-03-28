@@ -32,9 +32,23 @@ jobs:
           npx tsc --noEmit
           npm run test:run -- --reporter=github-actions
 
-      # NEW STEP: The Production Build Check
+      # NEW STEP: The Production Build Check for client
       - name: Build Client
         working-directory: ./client
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      # NEW STEP: The Production Build Check for server
+      - name: Build Client
+        working-directory: ./server
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      # NEW STEP: The Production Build Check for worker
+      - name: Build Client
+        working-directory: ./worker
         run: npm run build
         env:
           NODE_ENV: production
