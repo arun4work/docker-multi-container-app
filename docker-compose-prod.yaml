@@ -14,6 +14,7 @@ services:
     expose:
       - "5001"
     environment:
+      - REDIS_URL=${REDIS_URL}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - PG_USER=${PG_USER}
@@ -31,6 +32,7 @@ services:
       dockerfile: Dockerfile
       context: ./worker
     environment:
+      - REDIS_URL=${REDIS_URL}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
   ui:
