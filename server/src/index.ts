@@ -35,10 +35,16 @@ pgClient.on('connect', (client) => {
 pgClient.on('error', () => console.error('Lost PG Connection.'));
 
 // Redis Client setup
+const redisUrl =
+  process.env.REDIS_URL || `redis://${keys.redisHost}:${keys.redisPort}`;
+const isTls = redisUrl.startsWith('rediss://') as any;
 const redisClient = redis.createClient({
+  url: redisUrl,
   socket: {
-    host: keys.redisHost,
-    port: Number(keys.redisPort),
+    // host: keys.redisHost,
+    // port: Number(keys.redisPort),
+    tls: isTls,
+    rejectUnauthorized: false,
     reconnectStrategy: (retries) => {
       if (retries > 10) {
         return new Error('Retry attempts exhausted');
