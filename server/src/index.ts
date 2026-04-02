@@ -62,7 +62,7 @@ await redisPublisher.connect(); // Remember: v4 requires manual connection
 // Express route handlers
 
 app.get('/', (req, res) => {
-  res.send('Hi, API service is up in: ' + process.env.NODE_ENV);
+  res.send('Hi, API service is up and running in: ' + process.env.NODE_ENV);
 });
 
 app.get('/api/indices/all', async (req, res) => {
