@@ -64,31 +64,58 @@ _Goal: Hardened security, Nginx proxying, and automated CI/CD to Docker Hub._
 
 ## 🤖 CI/CD Pipeline (GitHub Actions)
 
-The pipeline is triggered on every merge to `master`.
+The pipeline is fully automated and triggers on every merge to the `master` branch.
 
 ### 1. Test & Verify
 
-- **Node Version:** 24.x
+- **Environment:** Node.js 24.x.
 - **Tasks:**
-  - Dependency installation in `./client`.
-  - Type checking via `npx tsc --noEmit`.
+  - Dependency installation in `./client`, `./server`, and `./worker`.
+  - Type checking via `npx tsc --noEmit` to ensure code integrity.
   - Unit tests via `npm run test:run -- --reporter=github-actions`.
   - Production build smoke test.
 
 ### 2. Build & Push (Docker Hub)
 
-- Uses `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` (PAT) from GitHub Secrets.
-- Tags images using **Variable Interpolation** in the Compose file: `${DOCKERHUB_USERNAME}/repo-name:latest`.
-- Pushes: `ui`, `server`, `worker`, and `proxy` images to Docker Hub.
+- **Credentials:** Uses `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` (PAT) from GitHub Secrets.
+- **Variable Interpolation:** Images are tagged using `${DOCKERHUB_USERNAME}/repo-name:latest` as defined in the production compose file.
+- **Artifacts:** Pushes `ui`, `server`, `worker`, and `proxy` images to Docker Hub for deployment.
+
+### 3. Automated Cloud Sync
+
+- **Render:** Sends a `POST` request to specific **Deploy Hooks** to trigger an immediate pull of the new images.
+- **Vercel:** Automatically detects the merge and redeploys the frontend from the `./client` directory.
 
 ---
 
-## ☁️ Deployment (Koyeb)
+## ☁️ Deployment Strategies
 
-1.  **Registry Secret:** Create a secret named `docker-hub-creds` in Koyeb using your Docker Hub PAT.
-2.  **External Services:** \* **Database:** Use [Supabase](https://supabase.com) or [Neon](https://neon.tech).
-    - **Redis:** Use [Upstash](https://upstash.com).
-3.  **Service Setup:** Create a Web Service in Koyeb pointing to your `proxy` image from Docker Hub.
+### Strategy 1: Unified Cluster (e.g., Koyeb, AWS, OCI)
+
+_Best for managing everything under a single provider using the Nginx Reverse Proxy._
+
+1.  **Registry Secret:** Create a secret (e.g., `docker-hub-creds`) in your provider using your Docker Hub PAT.
+2.  **Infrastructure:**
+    - **Database:** [Neon](https://neon.tech) (Postgres 17).
+    - **Redis:** [Upstash](https://upstash.com).
+3.  **Service Setup:** Create a **Web Service** pointing to your `proxy` image. The Proxy handles routing:
+    - `/` → UI Container
+    - `/api` → Server Container
+
+### Strategy 2: Distributed Cloud (Vercel + Render + Neon)
+
+_Best for high-performance frontend delivery and zero-cost background processing._
+
+1.  **Frontend (Vercel):**
+    - Connect the GitHub repo and point the "Root Directory" to `./client`.
+    - Configure `VITE_API_BASE_URL` to point to your Render API URL.
+2.  **Backend & Worker (Render):**
+    - **API:** Deploy as a **Web Service** using the `server` Docker image.
+    - **Worker:** Deploy as a **Web Service** using the `worker` Docker image.
+    - **Note:** The Worker includes an HTTP heartbeat server on port `10000` to satisfy Render’s port-check on the Free Tier.
+3.  **Security:** All database connections are configured with `sslmode=require` to satisfy Neon's security requirements.
+
+> **💡 Staff Pro-Tip:** When using **Strategy 2**, ensure `NODE_ENV=production` is set in the Render dashboard. This ensures the application correctly toggles **SSL for Postgres** and optimizes the Node.js runtime.
 
 ---
 
